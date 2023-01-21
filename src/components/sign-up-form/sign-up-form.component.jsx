@@ -54,7 +54,7 @@ const SignUpForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
+    //only updating 1 input = update the appropriate formfield, all the other fields that were previously on the state, I want them to be spread on. So this will spread all of the fields, and then we're just going to update the appropriate field by using square brackets inside of our object notation.
     setFormFields({ ...formFields, [name]: value });
   };
 
