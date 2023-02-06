@@ -39,9 +39,7 @@ const Navigation = () => {
         </div>
         {isCartOpen && <CartDropdown />}
       </div>
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
     </Fragment>
   );
 };
