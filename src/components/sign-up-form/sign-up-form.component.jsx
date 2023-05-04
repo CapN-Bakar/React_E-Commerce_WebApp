@@ -7,7 +7,8 @@ import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utilities/firebase/firebase.utils";
-import "./sign-up-form.styles.scss";
+
+import { SignUpContainer } from "./sign-up-form.styles";
 
 const defaultFormFields = {
   displayName: "",
@@ -28,7 +29,7 @@ const SignUpForm = () => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Password do not match");
+      alert("passwords do not match");
       return;
     }
 
@@ -44,19 +45,19 @@ const SignUpForm = () => {
       if (error.code === "auth/email-already-in-use") {
         alert("Cannot create user, email already in use");
       } else {
-        console.log("User creation encountered an error", error);
+        console.log("user creation encountered an error", error);
       }
     }
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    //only updating 1 input = update the appropriate formfield, all the other fields that were previously on the state, I want them to be spread on. So this will spread all of the fields, and then we're just going to update the appropriate field by using square brackets inside of our object notation.
+
     setFormFields({ ...formFields, [name]: value });
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -77,6 +78,7 @@ const SignUpForm = () => {
           name="email"
           value={email}
         />
+
         <FormInput
           label="Password"
           type="password"
@@ -85,6 +87,7 @@ const SignUpForm = () => {
           name="password"
           value={password}
         />
+
         <FormInput
           label="Confirm Password"
           type="password"
@@ -95,7 +98,7 @@ const SignUpForm = () => {
         />
         <Button type="submit">Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import {
-  signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
+  signInWithGooglePopup,
 } from "../../utilities/firebase/firebase.utils";
 
-import "./sign-in-form.styles.scss";
+import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
 
 const defaultFormFields = {
   email: "",
@@ -23,34 +23,18 @@ const SignInForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  //Database and API call should be Asynchronous calls
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
-
       resetFormFields();
     } catch (error) {
-      switch (error.code) {
-        case "auth/wrong-password":
-          alert("Incorrect password for email");
-          break;
-        case "auth/user-not-found":
-          alert("There is no user with such email");
-          break;
-        default:
-          console.log(error);
-      }
-      // if (error.code === "auth/wrong-password") {
-      //   alert("Incorrect password for email");
-      // } else if (error.code === "auth/user-not-found") {
-      //   alert("There is no user with such email");
-      // }
-      // console.log(error);
+      console.log("user sign in failed", error);
     }
   };
 
@@ -61,8 +45,8 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
-      <h2>I already have an account</h2>
+    <SignInContainer>
+      <h2>Already have an account?</h2>
       <span>Sign in with your email and password</span>
       <form onSubmit={handleSubmit}>
         <FormInput
@@ -73,6 +57,7 @@ const SignInForm = () => {
           name="email"
           value={email}
         />
+
         <FormInput
           label="Password"
           type="password"
@@ -81,14 +66,18 @@ const SignInForm = () => {
           name="password"
           value={password}
         />
-        <div className="buttons-container">
+        <ButtonsContainer>
           <Button type="submit">Sign In</Button>
-          <Button type="submit" buttonType="google" onClick={signInWithGoogle}>
-            Google sign in
+          <Button
+            buttonType={BUTTON_TYPE_CLASSES.google}
+            type="button"
+            onClick={signInWithGoogle}
+          >
+            Sign In With Google
           </Button>
-        </div>
+        </ButtonsContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 

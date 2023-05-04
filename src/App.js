@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Navigation />}>
         {/* index so that we won't have to go to path="/home" instead at / */}
         <Route index element={<Home />} />
-        <Route path="shop" element={<Shop />} />
+        <Route path="shop/*" element={<Shop />} />
         <Route path="auth" element={<Authentication />} />
         <Route path="checkout" element={<Checkout />} />
       </Route>
